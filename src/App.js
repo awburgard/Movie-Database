@@ -2,44 +2,35 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const welcome = 'Welcome to React'
+import Movie from './Movie'
+
+const movies = [
+  {
+    id: 1,
+    title: 'Star Wars'
+  },
+  {
+    id: 2,
+    title: 'Iron Man'
+  },
+  {
+    id: 3,
+    title: 'Thor: Ragnarok'
+  },
+  {
+    id: 4,
+    title: 'Knives Out'
+  },
+]
 
 class App extends React.Component {
-  state = {
-    input: 'Hello'
-  }
-
-  updateInput = (event) => {
-    this.setState({
-      input: event.target.value
-    })
-  }
-
-  submit = () => {
-    console.log(this.text.value)
-  }
-
   render() {
     return (
       <div className="App">
-        <input type="text" ref={(input) => this.text = input}/>
-        <input type="text" onChange={this.updateInput} value={this.state.input}/>
-        <button onClick={this.submit}>Show Value</button>
-        <h2>{this.state.input}</h2>
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {welcome}
-          </a>
         </header>
+        {movies.map( movie => <Movie key={movie.id} movie={movie}/> )}
       </div>
     );
   }
