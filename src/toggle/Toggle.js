@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux' // connect is what connects react and redux
-import { toggleMessage, getMovies } from './actions';
+import { toggleMessage } from './actions';
+import { getMovies } from '../movies/actions';
+
 import { bindActionCreators } from 'redux';
 
 const Toggle = ({ messageVisibility, toggleMessage, getMovies}) => (
@@ -14,7 +16,7 @@ const Toggle = ({ messageVisibility, toggleMessage, getMovies}) => (
 
 // This allows us to pick which parts of our state tree we want to access
 const mapStateToProps = state => ({
-    messageVisibility: state.message.messageVisibility,
+    messageVisibility: state.toggle.messageVisibility,
 });
 
 // binds our action creatores to dispatch
