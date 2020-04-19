@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 // connect is how we get data out of ouf redux and how we perform actions
 
 import { createStore } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import logo from './logo.svg';
 import './App.css';
@@ -21,7 +22,11 @@ import MovieDetail from './MovieDetail'
 import rootReducer from './rootReducer'
 
 
-const store = createStore(rootReducer)
+const store = createStore(
+  rootReducer,
+  {},
+  composeWithDevTools(), // third arg will always be middleware -- so devtools won't usually be there
+)
 
 const App = () => {
   return (
