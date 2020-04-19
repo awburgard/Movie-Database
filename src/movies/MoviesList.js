@@ -1,36 +1,39 @@
 import React from 'react';
 import Movie from './Movie';
 import styled from 'styled-components';
+import { connect } from 'react-redux' // connect is what connects react and redux
+import { bindActionCreators } from 'redux';
+import { getMovies } from './actions'
 
 class MoviesList extends React.Component {
-
-    state = {
-        movies: []
-    }
-
-    async componentDidMount() {
-        try {
-            const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=d682d07c8c27860c7d057074e7a3a28a&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1')
-            const movies = await res.json()
-            this.setState({
-                movies: movies.results
-            })
-        } catch (e) {
-            console.error(e)
-        }
+    componentDidMount() {
+        const { getMovies } = this.props;
+        getMovies();
     }
 
     render() {
+        const { movies } = this.props;
         return (
             <MovieGrid>
-                {this.state.movies.map(movie => <Movie key={movie.id} movie={movie} />)}
+                {movies.map(movie => <Movie key={movie.id} movie={movie} />)}
             </MovieGrid>
         );
     }
 
 }
 
-export default MoviesList;
+const mapStateToProps = state => ({
+    movies: state.movies.movies,
+});
+
+// binds our action creatores to dispatch
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        getMovies,
+    }, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviesList);
 
 
 const MovieGrid = styled.div`
