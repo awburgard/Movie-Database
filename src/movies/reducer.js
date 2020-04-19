@@ -3,6 +3,7 @@ import { GET_MOVIES } from './actions'
 // Only for this reducer
 const initialState = {
     movies: [],
+    moviesLoaded: false,
 };
 
 export default function (state = initialState, action) {
@@ -12,7 +13,8 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 movies: data,
-             }
+                moviesLoaded: true,
+            }
         default:
             return state
     }
