@@ -1,3 +1,4 @@
+// Packages
 import React from 'react';
 import {
   BrowserRouter as Router,
@@ -10,23 +11,28 @@ import { Provider } from 'react-redux';
 // connect allows us to grab props in and out of our components and dispatching actions
 // connect is how we get data out of ouf redux and how we perform actions
 
-import { createStore } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import logger from 'redux-logger';
 
+// Redeucer
+import rootReducer from './rootReducer'
+
+// Statid Assets
 import logo from './logo.svg';
 import './App.css';
 
+// Components
 import MoviesList from './MoviesList'
 import MovieDetail from './MovieDetail'
 import Toggle from './Toggle'
 
-import rootReducer from './rootReducer'
-
+const middleware = [logger]
 
 const store = createStore(
   rootReducer,
   {},
-  composeWithDevTools(), // third arg will always be middleware -- so devtools won't usually be there
+  composeWithDevTools(applyMiddleware(...middleware)), // third arg will always be middleware -- so devtools won't usually be there
 )
 
 const App = () => {
