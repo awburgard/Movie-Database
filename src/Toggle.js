@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux' // connect is what connects react and redux
-import { toggleMessage } from './actions'
+import { toggleMessage } from './actions';
+import { bindActionCreators } from 'redux';
 
-const Toggle = ({ messageVisibility, dispatch }) => (
+const Toggle = ({ messageVisibility, toggleMessage }) => (
     <div>
         {messageVisibility && <p>You will see this if Redux works</p>}
-        <button onClick={() => dispatch(toggleMessage())}>Toggle</button>
+        <button onClick={toggleMessage}>Toggle</button>
     </div>
 )
 
@@ -15,5 +16,12 @@ const mapStateToProps = state => ({
     messageVisibility: state.message.messageVisibility,
 });
 
+// binds our action creatores to dispatch
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        toggleMessage,
+    }, dispatch)
+)
 
-export default connect(mapStateToProps)(Toggle); // this is how we connect our component to connect
+
+export default connect(mapStateToProps, mapDispatchToProps)(Toggle); // this is how we connect our component to connect
