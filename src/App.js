@@ -5,9 +5,12 @@ import {
   Switch,
   Link,
 } from 'react-router-dom';
-import { Provider } from 'react-redux'; 
+import { Provider } from 'react-redux';
 //  Accepts two props: 1.store, 2. children -- makes redux avaliable for your whole applicaiotn via connect()
-// connect allows us to grab props in and out of our components
+// connect allows us to grab props in and out of our components and dispatching actions
+// connect is how we get data out of ouf redux and how we perform actions
+
+import { createStore } from 'redux'
 
 import logo from './logo.svg';
 import './App.css';
@@ -15,9 +18,12 @@ import './App.css';
 import MoviesList from './MoviesList'
 import MovieDetail from './MovieDetail'
 
+const hello = () => ('hello')
+const store = createStore(hello)
+
 const App = () => {
   return (
-    <Provider store={}>
+    <Provider store={store}>
       <Router>
         <div className="App">
           <header className="App-header">
