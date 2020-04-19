@@ -14,6 +14,7 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 // Redeucer
 import rootReducer from './rootReducer'
@@ -27,7 +28,7 @@ import MoviesList from './MoviesList'
 import MovieDetail from './MovieDetail'
 import Toggle from './Toggle'
 
-const middleware = [logger]
+const middleware = [logger, thunk]
 
 const store = createStore(
   rootReducer,
