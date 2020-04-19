@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux' // connect is what connects react and redux
+import { toggleMessage } from './actions'
 
-const Toggle = ({ messageVisibility }) => (
+const Toggle = ({ messageVisibility, dispatch }) => (
     <div>
         {messageVisibility && <p>You will see this if Redux works</p>}
-        <button>Toggle</button>
+        <button onClick={() => dispatch(toggleMessage())}>Toggle</button>
     </div>
 )
 
