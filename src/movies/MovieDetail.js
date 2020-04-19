@@ -1,31 +1,28 @@
-import React from 'react';
+/* eslint react/no-did-mount-set-state: 0 */
+import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Poster } from './Movie';
 import Overdrive from 'react-overdrive';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Poster } from './Movie';
+import { getMovie, resetMovie } from './actions';
 
-const POSTER_PATH = `http://image.tmdb.org/t/p/w154`;
-const BACKDROP_PATH = `http://image.tmdb.org/t/p/w1280`;
+const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
+const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280';
 
-class MovieDetail extends React.Component {
-
-    state = {
-        movie: {}
+class MovieDetail extends Component {
+    componentDidMount() {
+        const { getMovie, match } = this.props;
+        getMovie(match.params.id);
     }
 
-    async componentDidMount() {
-        try {
-            const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=d682d07c8c27860c7d057074e7a3a28a&language=en-US`)
-            const movie = await res.json()
-            this.setState({
-                movie,
-            })
-        } catch (e) {
-            console.error(e)
-        }
+    componentWillUnmount() {
+        this.props.resetMovie();
     }
 
     render() {
-        const { movie } = this.state
+        const { movie } = this.props;
+        if (!movie.id) return null;
         return (
             <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
                 <MovieInfo>
@@ -41,28 +38,37 @@ class MovieDetail extends React.Component {
             </MovieWrapper>
         );
     }
-
 }
 
-export default MovieDetail;
+const mapStateToProps = state => ({
+    movie: state.movies.movie,
+    isLoaded: state.movies.movieLoaded,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    getMovie,
+    resetMovie,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieDetail);
 
 const MovieWrapper = styled.div`
-    position: relative;
-    padding-top: 50vh;
-    background: url(${props => props.backdrop}) no-repeat;
-    background-size: cover;
+  position: relative;
+  padding-top: 50vh;
+  background: url(${props => props.backdrop}) no-repeat;
+  background-size: cover;
 `;
 
 const MovieInfo = styled.div`
-    background: white;
-    text-align: left;
-    padding: 2rem 10%;
-    display: flex;
-    > div {
-        margin-left: 20px;
-    } 
-    img {
-        position: relative;
-        top: -5rem;
-    }
+  background: white;
+  text-align: left;
+  padding: 2rem 10%;
+  display: flex;
+  > div {
+    margin-left: 20px;
+  }
+  img {
+    position: relative;
+    top: -5rem;
+  }
 `;
