@@ -18,8 +18,10 @@ import './App.css';
 import MoviesList from './MoviesList'
 import MovieDetail from './MovieDetail'
 
-const hello = () => ('hello')
-const store = createStore(hello)
+import rootReducer from './rootReducer'
+
+
+const store = createStore(rootReducer)
 
 const App = () => {
   return (
